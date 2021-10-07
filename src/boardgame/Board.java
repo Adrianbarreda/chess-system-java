@@ -27,4 +27,13 @@ public class Board {
 	public void setColumns(int columns) {
 		this.columns = columns;
 	}
+	
+	public Piece piece(int row, int column) {
+		return pieces[row][column]; // return the matrix pieces in line "row" and column "column".
+	}
+	
+	public Piece piece(Position position) { // doing overrider in "public Piece piece" method "retorna a pieza pela posição"
+		return pieces[position.getRow()][position.getColumn()];
+	}
+	
 }
