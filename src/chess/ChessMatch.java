@@ -23,7 +23,7 @@ public class ChessMatch {
 		return mat;
 	}
 	
-	private void placeNewPiece (char column, int row, ChessPiece piece) { // operação de colocar peça, passando a posição nas coordenadas do xadrez
+	private void placeNewPiece (char column, int row, ChessPiece piece) {
 		board.placePiece(piece, new ChessPosition(column, row).toPosition());
 	}
 	
