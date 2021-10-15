@@ -29,6 +29,7 @@ public class ChessMatch {
 		Position source = sourcePosition.toPosition(); //convert the two positions to the matrix positions
 		Position target = targetPosition.toPosition();
 		validateSourcePosition(source); //responsible for validating the origin position (does or not have a piece) if it doesn't exist it will throw an exception
+		validateTargetPosition(source, target);
 		Piece capturedPiece = makeMove(source, target); //operation responsible for performing the piece movement
 		return (ChessPiece)capturedPiece; //return my captured piece of type piece throw downcasting
 	}
@@ -46,6 +47,12 @@ public class ChessMatch {
 		}
 		if (!board.piece(position).isThereAnyPossibleMove()) {
 			throw new ChessException("There is no possible moves for the chosen piece");
+		}
+	}
+	
+	private void validateTargetPosition(Position source, Position target) {
+		if (!board.piece(source).possibleMove(target)) {
+			throw new ChessException("The chosen piece can't move to target position");
 		}
 	}
 	
