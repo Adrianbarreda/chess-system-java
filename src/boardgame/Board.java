@@ -38,11 +38,25 @@ public class Board {
 	}
 	
 	public void placePiece(Piece piece, Position position) {
-		if (thereIsAPice(position)) {
+		if (thereIsAPiece(position)) {
 			throw new BoardException("There is already a piece on position " + position);
 		}
 		pieces[position.getRow()][position.getColumn()] = piece;
 		piece.position = position;
+	}
+	
+	public Piece removePiece(Position position) {
+		//Defensive Programming
+		if (!positionExists(position)) { 
+			throw new BoardException("Position not on the board");
+		}		
+		if(piece(position) == null) {
+			return null;
+		} //Not Piece in this position
+		Piece aux = piece(position);// "Auxiliary variable" receive the piece on the board in that position
+		aux.position = null; // remove the piece from the board 
+		pieces[position.getRow()][position.getColumn()] = null; //Not more position IN THE MATRIX
+		return aux;
 	}
 	
 	public boolean positionExists(int row, int column) {
@@ -53,7 +67,7 @@ public class Board {
 		return positionExists(position.getRow(), position.getColumn());
 	}
 	
-	public boolean thereIsAPice(Position position) {
+	public boolean thereIsAPiece(Position position) {
 		if (!positionExists(position)) {
 			throw new BoardException("Position not on the board");
 		}
