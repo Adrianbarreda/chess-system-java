@@ -1,6 +1,5 @@
 package chess;
 
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -82,7 +81,12 @@ public class ChessMatch {
 										// it doesn't exist it will throw an exception
 		validateTargetPosition(source, target);
 		Piece capturedPiece = makeMove(source, target); // operation responsible for performing the piece movement
-
+		
+		if (testCheck(currentPlayer)) {
+			undoMove(source, target, capturedPiece);
+			throw new ChessException("You can't put yourself in check");
+		}	
+		
 		ChessPiece movedPiece = (ChessPiece) board.piece(target);
 		
 		// #special move promotion
@@ -93,12 +97,7 @@ public class ChessMatch {
 				promoted = (ChessPiece)board.piece(target);
 				promoted = replacePromotedPiece("Q");
 			}
-		}
-		
-		if (testCheck(currentPlayer)) {
-			undoMove(source, target, capturedPiece);
-			throw new ChessException("You can't put yourself in check");
-		}				
+		}						
 		
 		check = (testCheck(opponent(currentPlayer))) ? true : false;
 
@@ -126,7 +125,7 @@ public class ChessMatch {
 			throw new IllegalStateException("There is no piece to be promoted");
 		}
 		if (!type.equals("B") && !type.equals("N") && !type.equals("R") & !type.equals("Q")) {
-			throw new InvalidParameterException("Invalid type for promotion");
+			return promoted;
 		}
 
 		Position pos = promoted.getChessPosition().toPosition();
